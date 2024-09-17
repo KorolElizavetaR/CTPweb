@@ -9,12 +9,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @Getter
 @Setter
+@Accessors (chain = true)
 public class Student {
 	private long id;
     private String fname;
@@ -29,20 +31,30 @@ public class Student {
     private BigDecimal salary;
     private Timestamp addDate;
     
-	public Student(String fname, String lname, String address, String mobileNo, String mailId, String city,
-			String designation, Date dob, Date doj, BigDecimal salary, Timestamp addDate) {
-		super();
+//	public Student(String fname, String lname, String address, String mobileNo, String mailId, String city,
+//			String designation, Date dob, Date doj, BigDecimal salary, Timestamp addDate) {
+//		super();
+//		this.fname = fname;
+//		this.lname = lname;
+//		this.address = address;
+//		this.mobileNo = mobileNo;
+//		this.mailId = mailId;
+//		this.city = city;
+//		this.designation = designation;
+//		this.dob = dob;
+//		this.doj = doj;
+//		this.salary = salary;
+//		this.addDate = addDate;
+//	}
+	
+	public Student(String fname, String lname, String mobileNo, String mailId, String city, Date dob) {
 		this.fname = fname;
 		this.lname = lname;
-		this.address = address;
 		this.mobileNo = mobileNo;
 		this.mailId = mailId;
 		this.city = city;
-		this.designation = designation;
 		this.dob = dob;
-		this.doj = doj;
-		this.salary = salary;
-		this.addDate = addDate;
+		this.addDate = new Timestamp(System.currentTimeMillis());
 	}
     
 }
