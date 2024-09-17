@@ -78,18 +78,7 @@ public class StudentDAO {
         rs = ps.executeQuery();
         // while
         rs.next();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
+        student = initReturningStudent(); 
         con.close();
         return student;
     }
@@ -102,22 +91,10 @@ public class StudentDAO {
         ps.setString(1, emailId);
         rs = ps.executeQuery();
         rs.next();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));   
+        student = initReturningStudent(); 
         con.close();
         return student;
     }
-
 
     // Найти студента по Номеру телефона
     public Student fetchByMobileNo(String mobileNo) throws ClassNotFoundException, SQLException {
@@ -127,46 +104,20 @@ public class StudentDAO {
          ps.setString(1, mobileNo);
          rs = ps.executeQuery();
          rs.next();
-             student.setId(rs.getLong("id"));
-             student.setFname(rs.getString("fname"));
-             student.setLname(rs.getString("lname"));
-             student.setAddress(rs.getString("address"));
-             student.setMobileNo(rs.getString("mobile_no"));
-             student.setMailId(rs.getString("email_id"));
-             student.setCity(rs.getString("city"));
-             student.setDesignation(rs.getString("designation"));
-             student.setDob(rs.getDate("dob"));
-             student.setDoj(rs.getDate("doj"));
-             student.setSalary(rs.getBigDecimal("salary"));
-             student.setAddDate(rs.getTimestamp("add_date"));       
+         student = initReturningStudent(); 
          con.close();
          return student;
     }
 
-    // вот это надо проверить
     // Найти студентов по Имени
     // Модернизируйте метод. С возможностью искать и по имени и по фамилии с помощью слова like
     public List <Student> searchByName(String name) throws ClassNotFoundException, SQLException {
         List<Student> studentList = new ArrayList<>();
         Connection con = connectionFactory.getConnection();
-        ps = con.prepareStatement("SELECT * FROM student WHERE fname || ' ' || lname LIKE '%?%'");
-        ps.setString(1, name);
+        ps = con.prepareStatement("SELECT * FROM student WHERE fname || ' ' || lname LIKE ?");
+        ps.setString(1, "%".concat(name).concat("%"));
         rs = ps.executeQuery();
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
-            studentList.add(student); }        
+        while (rs.next()) studentList.add(initReturningStudent());     
         con.close();
         return studentList;
     }
@@ -178,21 +129,7 @@ public class StudentDAO {
         ps = con.prepareStatement(query);
         ps.setString(1, city);
         rs = ps.executeQuery();
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
-            studentList.add(student); }
+        while (rs.next()) studentList.add(initReturningStudent());
         con.close();
         return studentList;
     }
@@ -205,22 +142,7 @@ public class StudentDAO {
         ps.setBigDecimal(1, lowerSalary);
         ps.setBigDecimal(2, higherSalary);
         rs = ps.executeQuery();
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
-            studentList.add(student);
-        }        
+        while (rs.next()) studentList.add(initReturningStudent());
         con.close();
         return studentList;
     }
@@ -232,22 +154,7 @@ public class StudentDAO {
         ps = con.prepareStatement(query);
         ps.setDate(1, dob);
         rs = ps.executeQuery();
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
-            studentList.add(student);
-        }
+        while (rs.next())  studentList.add(initReturningStudent());
         con.close();
         return studentList;
     }
@@ -260,22 +167,8 @@ public class StudentDAO {
         ps.setDate(1, startDate);
         ps.setDate(2, endDate);
         rs = ps.executeQuery();
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
-            studentList.add(student);
-        }
+        while (rs.next()) 
+            studentList.add(initReturningStudent());
         con.close();
         return studentList;
     }
@@ -286,42 +179,25 @@ public class StudentDAO {
         Connection con = connectionFactory.getConnection();
         ps = con.prepareStatement("select * from student ORDER BY id DESC");
         rs = ps.executeQuery();
-        while (rs.next()) {
-            Student student = new Student();
-            student.setId(rs.getLong("id"));
-            student.setFname(rs.getString("fname"));
-            student.setLname(rs.getString("lname"));
-            student.setAddress(rs.getString("address"));
-            student.setMobileNo(rs.getString("mobile_no"));
-            student.setMailId(rs.getString("email_id"));
-            student.setCity(rs.getString("city"));
-            student.setDesignation(rs.getString("designation"));
-            student.setDob(rs.getDate("dob"));
-            student.setDoj(rs.getDate("doj"));
-            student.setSalary(rs.getBigDecimal("salary"));
-            student.setAddDate(rs.getTimestamp("add_date"));
-            studentList.add(student);
-        }
+        while (rs.next()) studentList.add( initReturningStudent());
         con.close();
         return studentList;
     }
     
-    // Is not used by now
     public Student initReturningStudent() throws SQLException
     {
-    	 Student student = new Student();
-    	 student.setId(rs.getLong("id"));
-         student.setFname(rs.getString("fname"));
-         student.setLname(rs.getString("lname"));
-         student.setAddress(rs.getString("address"));
-         student.setMobileNo(rs.getString("mobile_no"));
-         student.setMailId(rs.getString("email_id"));
-         student.setCity(rs.getString("city"));
-         student.setDesignation(rs.getString("designation"));
-         student.setDob(rs.getDate("dob"));
-         student.setDoj(rs.getDate("doj"));
-         student.setSalary(rs.getBigDecimal("salary"));
-         student.setAddDate(rs.getTimestamp("add_date"));
-         return student;
+    	return new Student()
+    			 .setId(rs.getLong("id"))
+    			 .setFname(rs.getString("fname"))
+    			 .setLname(rs.getString("lname"))
+    			 .setAddress(rs.getString("address"))
+    			 .setMobileNo(rs.getString("mobile_no"))
+    			 .setMailId(rs.getString("email_id"))
+    			 .setCity(rs.getString("city"))
+    			 .setDesignation(rs.getString("designation"))
+    			 .setDob(rs.getDate("dob"))
+    			 .setDoj(rs.getDate("doj"))
+    			 .setSalary(rs.getBigDecimal("salary"))
+    			 .setAddDate(rs.getTimestamp("add_date"));
     }
 }
