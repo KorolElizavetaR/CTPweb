@@ -1,5 +1,6 @@
 package korol.web.hibernate.controller;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,10 +11,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.NoResultException;
 import korol.web.hibernate.model.Student;
 import korol.web.hibernate.service.StudentService;
@@ -50,16 +53,15 @@ public class StudentController {
 	}
 	
 	@PostMapping ("/add")
-	public ResponseEntity<Student> addStudent(Student student)
+	public ResponseEntity<Object> addStudent(@RequestBody Student student)
 	{
 		try
 		{
 			studentService.addStudent(student);
 			return ResponseEntity.ok(studentService.fetchStudent((int) student.getId()));
 		}
-		catch(Exception ex)
-		{
-			return ResponseEntity.unprocessableEntity().build();
-		}
+		catch (Exception ex) {
+	        return ResponseEntity.badRequest().body(ex.getMessage());
+	    }
 	}
 }
