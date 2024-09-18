@@ -16,6 +16,7 @@ CREATE TABLE student
 );
 Truncate table student;
 DROP TABLE student;
+Select * from student;
 
 INSERT INTO student(fname, lname, email_id, city, dob) 
 	VALUES ('Kostya', 'Emelyanov', 'amogus@gmail.com', 'Minsk', '10.09.2005'),
