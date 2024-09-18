@@ -14,6 +14,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -21,19 +22,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @Accessors (chain = true)
 @Entity
 @Table (name = "students")
 @EqualsAndHashCode
+@NoArgsConstructor
 public class Student {
+	@Transient
+	private static final Student EMPTY = new Student();
 
 	@Id
 	@Column (name = "student_id")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private long id;
+	private Integer id;
 
 	@Column (name = "fname")
     private String fname;
@@ -64,11 +67,15 @@ public class Student {
 		this.lname = lname;
 		this.dob = dob;
 	}
+	
+	public Student(String fname, String lname, String email, Date dob) {
+		this(fname, lname, dob);
+		this.email = email;
+	}
 
 	public Student(String fname, String lname, String mobileNo, String email, Date dob) {
-		this(fname, lname, dob);
+		this(fname, lname, email, dob);
 		this.mobileNo = mobileNo;
-		this.email = email;
 	}
 	
 	public Student(String fname, String lname, String mobileNo, String email, Date dob, Date doj, Job job) {
@@ -77,5 +84,7 @@ public class Student {
 		this.job = job;
 	}
 	
-	
+	public boolean isEmpty() {
+        return this.equals(EMPTY);
+    }
 }

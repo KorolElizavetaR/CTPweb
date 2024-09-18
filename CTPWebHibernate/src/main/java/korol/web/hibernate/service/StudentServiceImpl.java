@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +37,7 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	public Student fetchStudent(Integer id) throws NoResultException {
-		Student student = session.createQuery("FROM Student WHERE id = :id", Student.class).setParameter("id", Integer.toString(id)).getSingleResult();
+		Student student = session.find(Student.class, id);
 		return student;
 	}
 
@@ -48,17 +49,24 @@ public class StudentServiceImpl implements StudentService{
 
 	@Override
 	@Transactional (readOnly = false)
-	public void editStudent(Student updateStudent, Integer id) throws IllegalArgumentException, IllegalAccessException {
-		Field[] studentFields = student.getClass().getDeclaredFields();
+	public void editStudent(Student updateStudent, Integer id) throws IllegalArgumentException, IllegalAccessException, EmptyJSONEx {
+		if(updateStudent.isEmpty()) throw new EmptyJSONEx();
+		Field[] studentFields = updateStudent.getClass().getDeclaredFields();
+		Integer countFields = studentFields.length;
 		Student st = session.find(Student.class, id);
-		for (Field field : studentFields)
+		for (int i = 1; i < countFields; i++)
 		{
-			field.setAccessible(true);
-			if (field.get(updateStudent) != null)
-			{
-				sysout
-			}
-			field.setAccessible(false);
+			studentFields[i].setAccessible(true);
+			Object value = studentFields[i].get(updateStudent);
+			studentFields[i].set(st, value);
+			studentFields[i].setAccessible(false);
 		}
+	}
+
+	@Override
+	@Transactional (readOnly = false)
+	public void deleteStudent(Integer id) {
+		Student student = session.find(Student.class, id);
+		session.remove(student);
 	}
 }

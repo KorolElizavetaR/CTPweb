@@ -17,5 +17,7 @@ public interface StudentService {
 	
 	void addStudent(Student student);
 	
-	void editStudent(Student student, Integer id)  throws IllegalArgumentException, IllegalAccessException;
+	void editStudent(Student student, Integer id)  throws IllegalArgumentException, IllegalAccessException, EmptyJSONEx;
+	
+	void deleteStudent(Integer id);
 }
