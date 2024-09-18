@@ -16,4 +16,6 @@ public interface StudentService {
 	Student fetchStudent(Integer id);
 	
 	void addStudent(Student student);
+	
+	void editStudent(Student student, Integer id)  throws IllegalArgumentException, IllegalAccessException;
 }

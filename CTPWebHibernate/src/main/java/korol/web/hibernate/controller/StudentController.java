@@ -64,4 +64,17 @@ public class StudentController {
 	        return ResponseEntity.badRequest().body(ex.getMessage());
 	    }
 	}
+	
+	@PatchMapping ("/{id}")
+	public ResponseEntity<Object> editStudent(@PathVariable ("id") Integer id, @RequestBody Student student)
+	{
+		try
+		{
+			studentService.editStudent(student, id);
+			return ResponseEntity.ok(studentService.fetchStudent(id));
+		}
+		catch (Exception ex) {
+	        return ResponseEntity.badRequest().body(ex.getMessage());
+	    }
+	}
 }

@@ -32,4 +32,10 @@ public class Job {
 	
 	@Column (name = "salary")
 	private BigDecimal salary;
+
+	public Job(String designation, BigDecimal salary) {
+		this.designation = designation;
+		this.salary = salary;
+	}
+
 }
