@@ -15,7 +15,8 @@ public class CTPwebLaba2 {
 		ReadTables read = context.getBean("read", ReadTables.class);
 		Tasks tasks = context.getBean("tasks", Tasks.class);
 		try {
-			tasks.task7();
+			//tasks.task4();
+			tasks.task6(); // бросает ошибку из-за отсутствия Unique если что, просто надо менять данные в запросе
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

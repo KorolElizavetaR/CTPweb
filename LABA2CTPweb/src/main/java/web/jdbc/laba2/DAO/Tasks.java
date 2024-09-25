@@ -30,7 +30,7 @@ public class Tasks {
 	// Добавьте нового Издателя (publusher).
 	public void task2() throws SQLException 
 	{
-		 jdbc.getStatement().executeUpdate("INSERT INTO publishers(\"publisherName\") VALUES ('Amongus')");
+		 jdbc.getStatement().executeUpdate("INSERT INTO publishers(\"publisherName\") VALUES ('AAAAWDWDADWD')");
 	}
 	
 	//Сделайте выборку Издателей и измените имя определенного Издателя.
@@ -40,7 +40,7 @@ public class Tasks {
 		 ResultSet rs1 = jdbc.getStatement().executeQuery(query);
 		 rs1.next();
 		 System.out.println(rs1.getInt("publisherID") + "\t" + rs1.getString("publisherName"));
-		 jdbc.getStatement().executeUpdate("UPDATE publishers SET \"publisherName\" = 'Valley' WHERE \"publisherID\" = 10");
+		 jdbc.getStatement().executeUpdate("UPDATE publishers SET \"publisherName\" = 'aaaaaaaaaa' WHERE \"publisherID\" = 10");
 		 rs1 = jdbc.getStatement().executeQuery(query);
 		 rs1.next();
 		 System.out.println(rs1.getInt("publisherID") + "\t" + rs1.getString("publisherName"));
@@ -65,22 +65,22 @@ public class Tasks {
 	// Выполните добавление Нового автора в БД
 	public void task5() throws SQLException
 	{
-		 jdbc.getStatement().executeUpdate("INSERT INTO authors(\"firstName\", \"lastName\") VALUES ('Yevgeny', 'Zamyatin')");
+		 jdbc.getStatement().executeUpdate("INSERT INTO authors(\"firstName\", \"lastName\") VALUES ('AAAAA', 'BBBBBB')");
 	}
 	
 	// Обновите Имя автора по определенному id
 	public void task6() throws SQLException
 	{
-		 jdbc.getStatement().executeUpdate("UPDATE authors SET \"firstName\" = 'Joanne', \"lastName\"='Rowling' WHERE \"authorID\"=11");
+		 jdbc.getStatement().executeUpdate("UPDATE authors SET \"firstName\" = 'BBBBBBB', \"lastName\"='AWDASDAWD' WHERE \"authorID\"=17");
 	}
 	
 	// там длинное условие
 	public void task7() throws SQLException
 	{
-		jdbc.getStatement().executeUpdate("INSERT INTO publishers(\"publisherName\") VALUES ('Amongus')");
+		jdbc.getStatement().executeUpdate("INSERT INTO publishers(\"publisherName\") VALUES ('Marchall')");
 		jdbc.getStatement().executeUpdate("INSERT INTO titles(isbn, title, \"editionNumber\", year, \"publisherID\", price) VALUES\r\n"
-		 		+ "	('5343175416', 'Demons', 1, 1888, (select \"publisherID\" from publishers where \"publisherName\" = 'Amongus'), 8.82);");
+		 		+ "	('5340005416', 'MyBook', 3, 2024, (select \"publisherID\" from publishers where \"publisherName\" = 'Marchall'), 5.00);");
 		jdbc.getStatement().executeUpdate("INSERT INTO authorisbn VALUES ((SELECT \"authorID\" "
-				+ "FROM authors WHERE \"firstName\" = 'Fyodor' AND \"lastName\" = 'Dostoevsky'), '5343175416');");
+				+ "FROM authors WHERE \"firstName\" = 'Iam' AND \"lastName\" = 'Amoron'), '5340005416');");
 	}
 }
