@@ -1,6 +1,5 @@
 package web.laba3.domparser.service;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,11 +101,44 @@ public class EmployeeService {
 	}
 	
 	private static Element getPropertyNode(String property, Document document, String value) {
-
 	      Element element = document.createElement(property);
 	      element.setTextContent(value);
 	      return element;
-	   }
+	}
+	
+	public static String deleteEmployee(Document document, Integer id) throws TransformerException
+	{
+		updateNodeList(document);
+		if (deleteEmployeeFromXml(document, id)) {
+          TransformerFactory tFactory = TransformerFactory.newInstance();
+          Transformer transformer = tFactory.newTransformer();
+          transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+          DOMSource source = new DOMSource(document);
+          StreamResult sResult = new StreamResult(document.getBaseURI());
+          transformer.transform(source, sResult);
+          return "Employee has been deleted successfully.";
+       }
+		return "Employee not exist.";
+	}
 
+
+	private static boolean deleteEmployeeFromXml(Document document, int id){
+	    NodeList list = document.getElementsByTagName("Employee");
+	    for (int i = 0; i < length; i++) {
+	       Node node = list.item(i);
+	       if (node.getNodeType() == Node.ELEMENT_NODE) {
+	          Element element = (Element) node;
+	          if (element.getAttribute("id").equals(String.valueOf(id))) {
+	             Node prev = node.getPreviousSibling();
+	             if (prev != null && prev.getNodeType() == Node.TEXT_NODE && prev.getNodeValue().trim().length() == 0) {
+	                document.getDocumentElement().removeChild(prev);
+	             }
+	             document.getDocumentElement().removeChild(element);
+	             return true;
+	          }
+	       }
+	    }
+	    return false;
+	 }
 }
 

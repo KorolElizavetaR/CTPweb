@@ -14,14 +14,14 @@ public class Main {
 		try
 		{
 			EmployeePrinter printer = EmployeePrinter.getInstanceOfEmployeePrinter();
-			
 			printer.printEmployees();
 			printer.printEmployeeById(2);
 			printer.addEmployee((new Employee()).
-										setAge(19).
-										setGender("Male").
-										setName("Boroda").
-										setRole("doter"));
+										setAge(28).
+										setGender("Female").
+										setName("Silvia").
+										setRole("Economist"));
+			printer.deleteEmployee(7);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	

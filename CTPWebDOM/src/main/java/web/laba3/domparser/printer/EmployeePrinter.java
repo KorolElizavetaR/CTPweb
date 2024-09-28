@@ -58,4 +58,10 @@ public class EmployeePrinter {
 		System.out.println("\taddEmployee(Employee employee)");
 		System.out.println(EmployeeService.addEmployee(document, employee));
 	}
+	
+	public void deleteEmployee(Integer id) throws TransformerException
+	{
+		System.out.println("\tdeleteEmployee(Integer id)");
+		System.out.println(EmployeeService.deleteEmployee(document, id));
+	}
 }
