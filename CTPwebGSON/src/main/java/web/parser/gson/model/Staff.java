@@ -6,9 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.annotations.Expose;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import web.parser.gson.annotation.ExcludeField;
 
 @Data
 @AllArgsConstructor
@@ -16,8 +19,11 @@ import lombok.NoArgsConstructor;
 public class Staff {
 	private String name;
 	private int age;
+	@ExcludeField
 	private String[] position;
+	@ExcludeField
 	private List<String> skills;
+	@ExcludeField
 	private Map<String, BigDecimal> salary;
 	
 	public static Staff createStaff()
