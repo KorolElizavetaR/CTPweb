@@ -19,7 +19,7 @@ public class Main {
 			printer.addEmployee((new Employee()).
 										setAge(28).
 										setGender("Female").
-										setName("Silvia").
+										setName("Anya").
 										setRole("Economist"));
 			printer.deleteEmployee(7);
 		} catch (Exception e) {
