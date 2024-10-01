@@ -7,7 +7,4 @@ CREATE TABLE developer
     experience INT NOT NULL
 )
 
-ALTER TABLE developer
-ADD COLUMN salary INT CHECK (salary > 0);
-
 DROP TABLE developer

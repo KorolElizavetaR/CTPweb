@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.ctpweb.laba4.model.Developer" table="developer">
+        <id name="id" type="int" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="firstName" column="firstName" type="string"/>
+        <property name="lastName" column="lastName" type="string"/>
+        <property name="specialty" column="specialty" type="string"/>
+        <property name="experience" column="experience" type="int"/>
+    </class>
+</hibernate-mapping>

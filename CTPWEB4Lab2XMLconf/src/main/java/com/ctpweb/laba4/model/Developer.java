@@ -11,32 +11,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table (name = "developer")
 public class Developer {
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column
-	private Integer id;
-	
-	@Column (nullable = false)
+	private int id;
 	private String firstName;
-	
-	@Column (nullable = false)
 	private String lastName;
-	
-	@Column (nullable = false)
 	private String specialty;
+	private int experience;
 	
-	@Column (nullable = false)
-	private Integer experience;
-	
-	
-	private Integer salary;
-	
-	public Developer(String firstName, String lastName, String specialty, Integer experience) {
+	public Developer(String firstName, String lastName, String specialty, int experience) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.specialty = specialty;

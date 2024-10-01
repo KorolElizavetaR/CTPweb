@@ -7,22 +7,16 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.ctpweb.laba4.model.Developer;
 
-import lombok.RequiredArgsConstructor;
-
-@Component
-@RequiredArgsConstructor
 public class DeveloperDAO {
 	private final SessionFactory sessionFactory;
 	private Session session;
 
 	public DeveloperDAO()
 	{
-		sessionFactory = new Configuration().addAnnotatedClass(Developer.class).buildSessionFactory();
+		sessionFactory = new Configuration().configure().buildSessionFactory();
 	}
 	
 	public List<Developer> getDevelopersList()
