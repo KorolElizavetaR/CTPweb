@@ -41,7 +41,7 @@ public class CompanyDAO {
 		session.remove(company);
     };
     
-    public List<Company> showCompanies()
+    public List<Company> getCompanies()
     {
         return session.createQuery("FROM Company", Company.class).getResultList();
     };
