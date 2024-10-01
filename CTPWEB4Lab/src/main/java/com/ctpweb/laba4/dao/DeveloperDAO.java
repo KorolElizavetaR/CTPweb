@@ -12,6 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ctpweb.laba4.model.Developer;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -61,7 +64,10 @@ public class DeveloperDAO {
 		 {
 			 devFields[i].setAccessible(true);
 			 Object value = devFields[i].get(dev);
-			 devFields[i].set(developer, value);
+			 if (value != null)
+			 {
+				 devFields[i].set(developer, value); 
+			 }
 			 devFields[i].setAccessible(false);
 		 }
 		 transaction.commit();
@@ -73,6 +79,32 @@ public class DeveloperDAO {
 		 Developer developer = session.get(Developer.class, developerId);
 		 session.remove(developer);
 		 transaction.commit();
+	 }
+	 
+	 public List<Developer> getDevsWithSalaryNotLessThan (Integer minSal)
+	 {
+		 session = sessionFactory.getCurrentSession();
+		 Transaction transaction = session.beginTransaction();
+		 CriteriaBuilder builder = session.getCriteriaBuilder();
+		 CriteriaQuery <Developer> query = builder.createQuery(Developer.class);
+		 Root<Developer> root = query.from(Developer.class);
+		 query.select(root).where(builder.gt(root.get("salary"), minSal));
+		 List<Developer> developers = session.createQuery(query).getResultList();
+		 transaction.commit();
+		 return developers;
+	 }
+	 
+	 public Integer totalSalary()
+	 {
+		 session = sessionFactory.getCurrentSession();
+		 Transaction transaction = session.beginTransaction();
+		 CriteriaBuilder builder = session.getCriteriaBuilder();
+		 CriteriaQuery <Integer> query = builder.createQuery(Integer.class);
+		 Root<Developer> root = query.from(Developer.class);
+		 query.select(builder.sum(root.get("salary")));
+		 Integer salary = session.createQuery(query).getSingleResult();
+		 transaction.commit();
+		 return salary;
 	 }
  
 }

@@ -39,5 +39,14 @@ public class DeveloperService {
 		developerDAO.removeDeveloper(id);
 		System.out.println("Dev is succesfully removed");
 	}
+	
+	public void printDevsWithSalaryNotLessThan(Integer minSal)
+	{
+		developerDAO.getDevsWithSalaryNotLessThan(minSal).stream().forEach(System.out::println);
+	}
 
+	public void totalSalaryOfAllWorkers()
+	{
+		System.out.println("Total salary of all workers = " + developerDAO.totalSalary());
+	}
 }

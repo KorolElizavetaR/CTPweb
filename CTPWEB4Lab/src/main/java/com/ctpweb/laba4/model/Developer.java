@@ -33,14 +33,15 @@ public class Developer {
 	@Column (nullable = false)
 	private Integer experience;
 	
-	
+	@Column
 	private Integer salary;
 	
-	public Developer(String firstName, String lastName, String specialty, Integer experience) {
+	public Developer(String firstName, String lastName, String specialty, Integer experience, Integer salary) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.specialty = specialty;
 		this.experience = experience;
+		this.salary = salary;
 	}
 	
 }
