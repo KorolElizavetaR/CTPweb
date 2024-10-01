@@ -3,6 +3,8 @@ package korol.web.hibernate.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import korol.web.hibernate.dto.CarDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
@@ -27,6 +31,7 @@ public class Company {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "company_id")
 	@NotNull
+	@Pattern (regexp = "^[\\p{L}]+$")
 	private int companyId;
 
 	@Column(name = "company_name")
@@ -38,6 +43,7 @@ public class Company {
 	private String companyCountry;
 
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@JsonManagedReference
 	private List<Car> cars;
 
 	public Company(String companyName, String companyCountry) {

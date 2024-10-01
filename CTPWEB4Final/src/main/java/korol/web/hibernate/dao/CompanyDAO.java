@@ -7,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import korol.web.hibernate.model.AuthUser;
-import korol.web.hibernate.model.Company;
-import korol.web.hibernate.model.Person;
+import korol.web.hibernate.model.*;
 import lombok.RequiredArgsConstructor;
 
 @Component
@@ -26,19 +24,25 @@ public class CompanyDAO {
 	}
 	
 	@Transactional (readOnly = false)
-	public void updateCompany(Company company, Integer id)
+	public boolean updateCompany(Company company, Integer id)
 	{
-		Company oldCompany = session.find(Company.class, id);
+		Company oldCompany = findCompanyById(id);
+		if (company == null)
+			return false;
 		oldCompany.setCars(company.getCars()).
 			setCompanyCountry(company.getCompanyCountry()).
 			setCompanyName(company.getCompanyName());
+		return true;
 	};
 	
 	@Transactional (readOnly = false)
-	public void deleteCompany(int id)
+	public boolean deleteCompany(int id)
     {
-		Company company = session.find(Company.class, id);
+		Company company = findCompanyById(id);
+		if (company == null)
+			return false;
 		session.remove(company);
+		return true;
     };
     
     public List<Company> getCompanies()
@@ -57,5 +61,43 @@ public class CompanyDAO {
     			setParameter("companyName", name).
     			getSingleResult();
     };
+    
+    @Transactional (readOnly = false)
+    public boolean addCar(Integer company_id, Car car)
+    {
+    	Company company = findCompanyById(company_id);
+    	if (company == null)
+			return false;
+    	car.setCompany(company);
+    	company.addCar(car);
+    	session.persist(car);
+    	return true;
+    }
+    
+    public Car showCar(Integer company_id, Integer car_id)
+    {
+    	Company company = findCompanyById(company_id);
+    	return company.getCars().stream().filter(c -> c.getCarId() == car_id).findFirst().orElse(null);
+    }
+    
+    
+    public List<Car> getCars(Integer company_id)
+    {
+    	Company company = findCompanyById(company_id);
+    	return company.getCars();
+    }
 
+    @Transactional (readOnly = false)
+    public boolean deleteCar(Integer company_id, Integer car_id)
+    {
+    	Company company = findCompanyById(company_id);
+    	if (company == null)
+    		return false;
+    	Car car = company.getCars().stream().filter(c -> c.getCarId() == car_id).findFirst().orElse(null);
+    	if (car == null)
+    		return false;
+    	session.remove(car);
+    	company.getCars().remove(car);
+    	return true;
+    }
 }

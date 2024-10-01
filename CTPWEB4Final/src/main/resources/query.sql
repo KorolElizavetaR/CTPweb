@@ -2,7 +2,16 @@ CREATE TABLE companies (
    company_id int GENERATED ALWAYS AS IDENTITY primary key,
    company_name varchar(45) NOT NULL,
    company_country varchar(45) NOT NULL);
-DROP TABLE companies;
+SELECT * FROM companies;
+
+INSERT INTO companies(company_name, company_country) VALUES
+	('BMW', 'German'),
+	('Volkswagen', 'German')
+	
+	INSERT INTO cars(name, year, distance, fuel, fuel_consumption, price, company_id) VALUES
+		('BMW iX', 2024,  425, 'Электричество', '326 л.с.', 75500, 1),
+		('BMW 3 E90', 2005, 255000, 'Бензин', '9 л', 9000, 1),
+		('BMW 5 E39', 2002, 280000, 'Бензин', '5,9 л', 3799, 1)
 
  CREATE TABLE cars (
    car_id int GENERATED ALWAYS AS IDENTITY primary key,

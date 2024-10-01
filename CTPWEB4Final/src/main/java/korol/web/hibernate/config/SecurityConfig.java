@@ -41,7 +41,7 @@ public class SecurityConfig {
 				requests.
 				requestMatchers("/check/guest").permitAll().
 				requestMatchers("/check/user").hasRole("USER").
-				requestMatchers("/check/admin").hasRole("ADMIN").
+				requestMatchers("/check/admin", "/company/**").hasRole("ADMIN").
 				anyRequest().authenticated()).
 			logout((logout) -> logout.permitAll()).
 			httpBasic(Customizer.withDefaults());

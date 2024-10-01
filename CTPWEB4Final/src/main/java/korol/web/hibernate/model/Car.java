@@ -1,5 +1,7 @@
 package korol.web.hibernate.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,19 +16,22 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Entity
 @Table (name = "cars")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @Accessors (chain = true)
 public class Car {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column(name = "car_id")
-	@NotNull
 	private int carId;
 
 	@Column(name = "name")
@@ -59,7 +64,18 @@ public class Car {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
-	@NotNull
+	@ToString.Exclude
+	@JsonBackReference
 	private Company company;
+
+	public Car(@NotNull String name, @NotNull @Min(1900) @Max(2024) int year, @NotNull @Positive int distance,
+			@NotNull String fuel, @NotNull String fuelConsumption, @NotNull @Positive int price) {
+		this.name = name;
+		this.year = year;
+		this.distance = distance;
+		this.fuel = fuel;
+		this.fuelConsumption = fuelConsumption;
+		this.price = price;
+	}
 
 }
