@@ -19,7 +19,6 @@ import web.parser.gson.annotation.ExcludeField;
 public class Staff {
 	private String name;
 	private int age;
-	@ExcludeField
 	private String[] position;
 	@ExcludeField
 	private List<String> skills;

@@ -19,9 +19,10 @@ public class Main {
 			printer.addEmployee((new Employee()).
 										setAge(28).
 										setGender("Female").
-										setName("Anya").
+										setName("Evgenia").
 										setRole("Economist"));
-			printer.deleteEmployee(7);
+		//	printer.deleteEmployee(7);
+			printer.printEmployees();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	

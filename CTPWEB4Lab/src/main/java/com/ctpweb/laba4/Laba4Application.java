@@ -17,7 +17,7 @@ public class Laba4Application {
 //		service.addDev(new Developer("Michail", "Baranov", "DevOps", 1, 500));
 //		service.addDev(new Developer("Victorya", "Frolova", "System Analytics", 2, 1400));
 //		service.addDev(new Developer("Sergey", "Nemchinsky", "Java Backend dev", 10, 15000));
-//		service.printAllDevs();
+		service.printAllDevs();
 //		service.printDevsWithSalaryNotLessThan(1400);
 //		service.totalSalaryOfAllWorkers();
 	}
