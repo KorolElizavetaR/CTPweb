@@ -11,12 +11,7 @@ import com.ctpweb.junit.service.ProgrammerService;
 public class Main {
 	
 	public static void main(String[] args) {
-		ApplicationContext context = SpringApplication.run(Main.class, args);
-		ProgrammerService service = context.getBean(ProgrammerService.class);
-		service.addProgrammer(Programmer.builder().
-				name("Киселева Татьяна Сергеевна").
-				location("г. Минск, Орловского 44").
-				build());
+		SpringApplication.run(Main.class, args);
 	}
 
 }

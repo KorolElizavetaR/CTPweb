@@ -1,4 +1,4 @@
-package com.ctpweb.junit.exception;
+package com.mockito.programmer.exception;
 
 import lombok.NoArgsConstructor;
 

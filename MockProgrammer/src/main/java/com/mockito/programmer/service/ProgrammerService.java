@@ -1,20 +1,17 @@
-package com.ctpweb.junit.service;
+package com.mockito.programmer.service;
 
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
-import com.ctpweb.junit.exception.ProgrammerIsNotFoundException;
-import com.ctpweb.junit.model.Programmer;
-import com.ctpweb.junit.repository.ProgrammerRepository;
+import com.mockito.programmer.exception.ProgrammerIsNotFoundException;
+import com.mockito.programmer.model.Programmer;
+import com.mockito.programmer.repository.ProgrammerRepository;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 

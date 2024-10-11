@@ -1,7 +1,11 @@
-package com.ctpweb.junit.service;
+package com.mockito.programmer.service;
 
-import static org.junit.Assert.assertThrows;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,28 +16,16 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import com.ctpweb.junit.exception.ProgrammerIsNotFoundException;
-import com.ctpweb.junit.model.Programmer;
-import com.ctpweb.junit.repository.ProgrammerRepository;
+import com.mockito.programmer.exception.ProgrammerIsNotFoundException;
+import com.mockito.programmer.model.Programmer;
+import com.mockito.programmer.repository.ProgrammerRepository;
 
 import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
-import jakarta.validation.ValidationException;
-import jakarta.validation.Validator;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -118,7 +110,7 @@ class ProgrammerServiceTest {
 	@Test
 	@Order (11)
 	void testFetchProgrammerById_DoesNotExists() {
-		Programmer prog = new Programmer().builder().
+		Programmer prog = Programmer.builder().
 				id(1).
 				name("Алексей Дмитрий Дмитриевич").
 				qualification("Инженер-программист").
