@@ -37,4 +37,11 @@ public class Programmer {
 	
 	@Column(name = "qualification")
 	private String qualification;
+
+	public Programmer(String name, String qualification) {
+		this.name = name;
+		this.qualification = qualification;
+	}
+	
+	
 }

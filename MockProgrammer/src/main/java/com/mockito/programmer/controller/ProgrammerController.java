@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,7 @@ import com.mockito.programmer.service.ProgrammerService;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,8 +32,8 @@ public class ProgrammerController {
 	private final ProgrammerService programmerService;
 
 	@PostMapping("/add")
-	public ResponseEntity<Programmer> getProgrammerById(@RequestBody Programmer programmer) {
-		return ResponseEntity.ok(programmerService.addProgrammer(programmer));
+	public ResponseEntity<Programmer> addProgrammer(@RequestBody @Valid Programmer programmer) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(programmerService.addProgrammer(programmer)); //ok(programmerService.addProgrammer(programmer));
 	}
 	
 	@GetMapping
@@ -41,21 +43,21 @@ public class ProgrammerController {
 	}
 	
 	@GetMapping ("/{id}")
-	public ResponseEntity<Programmer> getProgrammer(@PathVariable ("id") Integer id)
+	public ResponseEntity<Programmer> getProgrammerById(@PathVariable ("id") Integer id)
 	{
 		return ResponseEntity.ok(programmerService.fetchProgrammerById(id));
 	}
 	
 	@PatchMapping ("/{id}")
-	public ResponseEntity<Programmer> patchProgrammer(@PathVariable ("id") Integer id, @RequestBody Programmer newCompany)
+	public ResponseEntity<Programmer> patchProgrammer(@PathVariable ("id") Integer id, @RequestBody Programmer newProgrammer)
 	{
-		return ResponseEntity.ok(programmerService.updateProgrammer(newCompany, id));
+		return ResponseEntity.ok(programmerService.updateProgrammer(newProgrammer, id));
 	}
 	
 	@DeleteMapping ("/{id}")
 	public ResponseEntity<String> deleteProgrammer(@PathVariable ("id") Integer id)
 	{
-		return ResponseEntity.ok("Programmer is succesfully deleted");
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Programmer is succesfully deleted");
 	}
 
 	@ExceptionHandler(ConstraintViolationException.class)
