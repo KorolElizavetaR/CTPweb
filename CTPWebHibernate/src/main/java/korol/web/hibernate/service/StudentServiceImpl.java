@@ -15,7 +15,7 @@ import jakarta.persistence.PersistenceContext;
 import korol.web.hibernate.model.Student;
 import lombok.RequiredArgsConstructor;
 
-@Service // возможно надо удалить
+@Service
 @Transactional (readOnly = true)
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService{
