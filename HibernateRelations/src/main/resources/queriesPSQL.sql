@@ -1,5 +1,14 @@
 CREATE TYPE role AS ENUM ('ROLE_ADMIN', 'ROLE_USER');
 	
+CREATE TABLE developer
+(
+	id int GENERATED ALWAYS AS IDENTITY PRIMAKY KEY,
+	name varchar(20) NOT NULL,
+	specialty varchar(20) NOT NULL,
+	experience int not null CHECK (experience > -1),
+	department_id char(3) REFERENCES departments ON DELETE CASCADE NOT NULL DEFAULT 'B04'
+)
+
 CREATE TABLE departments
 (
 	department_id char(3) CHECK (LENGTH(department_id) = 3) PRIMARY KEY,

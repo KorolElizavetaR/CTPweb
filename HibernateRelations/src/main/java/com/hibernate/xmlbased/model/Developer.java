@@ -2,9 +2,12 @@ package com.hibernate.xmlbased.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,14 +28,19 @@ public class Developer {
     @Column (name = "experience")
 	private int experience;
 
+    @ManyToOne (fetch = FetchType.EAGER)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
+    
 	public Developer() {
 	}
 
-	public Developer(String name, String specialty, int experience) {
-		this.name = name;
-		this.specialty = specialty;
-		this.experience = experience;
-	}
+	public Developer(String name, String specialty, int experience, Department department) {
+        this.name = name;
+        this.specialty = specialty;
+        this.experience = experience;
+        this.department = department;
+    }
 
 	public int getId() {
 		return id;
@@ -48,14 +56,6 @@ public class Developer {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getLastName() {
-		return name;
-	}
-
-	public void setLastName(String lastName) {
-		this.name = lastName;
 	}
 
 	public String getSpecialty() {
@@ -77,7 +77,6 @@ public class Developer {
 	@Override
 	public String toString() {
 		return "Developer [id=" + id + ", name=" + name + ", specialty=" + specialty + ", experience=" + experience
-				+ "]";
+				+ ", department=" + department + "]";
 	}
-
 }

@@ -1,25 +1,22 @@
 package com.hibernate.xmlbased.dao;
 
-import org.hibernate.cfg.Configuration;
-
-import com.hibernate.xmlbased.model.Developer;
-
 import java.util.List;
 
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
-public class DeveloperDAO {
-	private final SessionFactory sessionFactory;
-	private Session session;
+import com.hibernate.xmlbased.config.SessionConfig;
+import com.hibernate.xmlbased.model.Developer;
 
+public class DeveloperDAO {
+	private SessionConfig sc;
+	
 	public DeveloperDAO() {
-		sessionFactory = new Configuration().addAnnotatedClass(Developer.class).configure().buildSessionFactory();
+		sc = SessionConfig.getInstanceOfSeccionFactory();
 	}
 
 	public void addDeveloper(Developer developer) {
-		session = sessionFactory.getCurrentSession();
+		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		session.persist(developer);
 		transaction.commit();
@@ -27,7 +24,7 @@ public class DeveloperDAO {
 	}
 
 	public Developer getDeveloperById(Integer id) {
-		session = sessionFactory.getCurrentSession();
+		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		Developer developer = session.get(Developer.class, id);
 		transaction.commit();
@@ -36,7 +33,7 @@ public class DeveloperDAO {
 	}
 
 	public List<Developer> getDevelopers() {
-		session = sessionFactory.getCurrentSession();
+		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		List<Developer> developers = session.createQuery("FROM Developer", Developer.class).list();
 		transaction.commit();
@@ -45,7 +42,7 @@ public class DeveloperDAO {
 	}
 
 	public Developer updateDeveloper(Integer id, Integer experience) {
-		Session session = this.sessionFactory.openSession();
+		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		Developer developer = session.get(Developer.class, id);
 		developer.setExperience(experience);
@@ -55,7 +52,7 @@ public class DeveloperDAO {
 	}
 
 	public void removeDeveloper(Integer id) {
-		Session session = this.sessionFactory.openSession();
+		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		Developer developer = session.get(Developer.class, id);
 		session.remove(developer);
