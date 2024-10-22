@@ -47,20 +47,13 @@ public class UserDAO {
 		}
 	}
 	
-	public void updatePassword(String username, String password)
+	public void updatePassword(Integer id, String password)
 	{
 		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		try
 		{
-			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-			CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
-			Root<User> devCriteria = criteria.from(User.class);
-			
-			criteria.where(criteriaBuilder.equal(devCriteria.get("username"), username));
-			User user = session.createQuery(criteria).getSingleResult();
-			
-			user.setPassword(password);
+			session.createMutationQuery(String.format("update User u SET password = '%s' WHERE userId = %d", password, id)).executeUpdate();
 		}
 		catch (Exception ex)
 		{

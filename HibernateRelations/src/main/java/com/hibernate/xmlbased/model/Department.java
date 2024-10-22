@@ -23,13 +23,21 @@ public class Department {
 	@Column(name = "location", nullable = false)
 	private String location;
 
-	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Developer> developers;
 
 	public Department(String departmentId, String departmentName, String location) {
 		this.departmentId = departmentId;
 		this.departmentName = departmentName;
 		this.location = location;
+	}
+
+	public List<Developer> getDevelopers() {
+		return developers;
+	}
+
+	public void setDevelopers(List<Developer> developers) {
+		this.developers = developers;
 	}
 
 	public Department() {

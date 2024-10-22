@@ -18,6 +18,6 @@ public class Menu {
 	public void menu(User authUser)
 	{
 		this.authUser = authUser;
-		System.out.printf("Hi, %s. Your role: %s", authUser.getDeveloper().getName(), authUser.getUserRole().getRole());
+		System.out.printf("Hi, %s. Your role: %s\t", authUser.getDeveloper().getName(), authUser.getUserRole().getRole());
 	}
 }

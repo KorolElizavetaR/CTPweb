@@ -79,4 +79,14 @@ public class Developer {
 		return "Developer [id=" + id + ", name=" + name + ", specialty=" + specialty + ", experience=" + experience
 				+ ", department=" + department + "]";
 	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+	
+	
 }

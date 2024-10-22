@@ -27,7 +27,7 @@ public class SessionConfig {
 	public static SessionConfig getInstanceOfSeccionFactory()
 	{
 		if (sc == null)
-			return new SessionConfig();
-		else return sc;
+			sc = new SessionConfig();
+		return sc;
 	}
 }
