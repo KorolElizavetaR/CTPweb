@@ -76,8 +76,7 @@ public class Developer {
 
 	@Override
 	public String toString() {
-		return "Developer [id=" + id + ", name=" + name + ", specialty=" + specialty + ", experience=" + experience
-				+ ", department=" + department + "]";
+		return "Developer [id=" + id + ", name=" + name + ", specialty=" + specialty + ", experience=" + experience + "]";
 	}
 
 	public Department getDepartment() {

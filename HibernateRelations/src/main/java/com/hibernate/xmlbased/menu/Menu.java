@@ -9,8 +9,7 @@ import com.hibernate.xmlbased.model.User;
 
 public class Menu {
 	User authUser;
-	Scanner scanLine = new Scanner(System.in);
-	Scanner scanInt = new Scanner(System.in);
+	Scanner in = new Scanner(System.in);
 	
 	static DeveloperDAO developerDAO = new DeveloperDAO();
 	static UserDAO userDAO = new UserDAO();

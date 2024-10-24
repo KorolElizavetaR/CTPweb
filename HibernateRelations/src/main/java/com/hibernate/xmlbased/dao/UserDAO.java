@@ -1,5 +1,6 @@
 package com.hibernate.xmlbased.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.Hibernate;
@@ -58,6 +59,44 @@ public class UserDAO {
 		catch (Exception ex)
 		{
 			throw ex;
+		}
+		finally
+		{
+			transaction.commit();
+			session.close();
+		}
+	}
+	
+	public User getDeveloperById(Integer id) {
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		User developer = session.get(User.class, id);
+		transaction.commit();
+		session.close();
+		return developer;
+	}
+	
+	public List<User> getUsers() {
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		List<User> users = session.createQuery("FROM User", User.class).getResultList();
+		transaction.commit();
+		session.close();
+		return users;
+	}
+	
+	public User getUserByUsername(String username) throws NoResultException
+	{
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		try
+		{
+			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+			CriteriaQuery<User> criteria = criteriaBuilder.createQuery(User.class);
+			Root<User> devCriteria = criteria.from(User.class);
+			criteria.where(criteriaBuilder.equal(devCriteria.get("username"), username));
+			User user = session.createQuery(criteria).getSingleResult();
+			return user;
 		}
 		finally
 		{

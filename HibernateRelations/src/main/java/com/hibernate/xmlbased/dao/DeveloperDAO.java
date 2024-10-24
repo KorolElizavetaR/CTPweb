@@ -60,7 +60,4 @@ public class DeveloperDAO {
 		transaction.commit();
 		session.close();
 	}
-	
-
-
 }

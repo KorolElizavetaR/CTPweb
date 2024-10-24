@@ -26,15 +26,14 @@ public class AdminMenu extends Menu {
 			System.out.println("4. Перевести сотрудника в новый департамент");
 			System.out.println("5. Удалить департмент (Внимание! Удаляет также связанных сотрудников)");
 			System.out.println("6. Найти сотрудника по ID");
-			System.out.println("7. Add developer"); // таска, круд есть в классе ПОКА ЧЕТО ЛОМАЕТСЯ
-			System.out.println("7. Update developer"); // таска, круд есть в классе
-			System.out.println("8. Delete developer"); // таска, круд есть в классе
-			System.out.println("9. Find user by id"); // таска
-			System.out.println("10. Add user"); // таска
+			System.out.println("7. Добавить сотрудника");
+			System.out.println("8. Удалить сотрудника"); 
+			System.out.println("9. Получить список юзеров");
+			System.out.println("10. Найти юзера по никнейму"); 
+			System.out.println("11. Добавить сотрудника"); 
+			
 			System.out.println("11. Delete user");// таска
-			// Написать три SELECT-а с использованием HQL или Criteria: один для каждой
-			// таблицы
-
+			// Написать три SELECT-а с использованием HQL или Criteria для любых таблиц
 			try {
 				System.out.print("Ввод: ");
 				options = in.nextLine();
@@ -62,11 +61,19 @@ public class AdminMenu extends Menu {
 				case "7":
 					addDeveloper();
 					break;
+				case "8":
+					deleteDeveloper();
+					break;
+				case "9":
+					getUsers();
+					break;
+				case "10":
+					getUserByUsername();
+					break;
 				default:
 					System.out.println("\nНеверный ввод.");
 				}
-			}
-			catch (Exception ex) {
+			} catch (Exception ex) {
 				System.out.println(ex.getMessage());
 			}
 		}
@@ -84,9 +91,8 @@ public class AdminMenu extends Menu {
 	}
 
 	public void findDepartmentByID() {
-		Scanner scan = new Scanner(System.in);
 		System.out.print("Введите ID департамента: ");
-		String depID = scan.nextLine();
+		String depID = in.nextLine();
 		System.out.println(departmentDAO.findDepartmentByID(depID));
 	}
 
@@ -108,66 +114,86 @@ public class AdminMenu extends Menu {
 			System.out.println("Возникла ошибка добавления.");
 		}
 	}
-	
-	public void relocateDeveloper()
-	{
-		Scanner scan = new Scanner(System.in);
+
+	public void relocateDeveloper() {
 		System.out.print("Введите ID сотрудника: ");
-		Integer devID = scan.nextInt();
+		Integer devID = Integer.valueOf(in.nextLine());
 		Developer dev = developerDAO.getDeveloperById(devID);
-		if (dev == null)
-		{
+		if (dev == null) {
 			throw new NullPointerException("Сотрудник не найден");
 		}
-		Scanner scan2 = new Scanner(System.in);
 		System.out.print("Введите ID департамента: ");
-		String depID = scan2.nextLine();
+		String depID = in.nextLine();
 		Department department = departmentDAO.findDepartmentByID(depID);
 		developerDAO.updateDevelopersDepartment(devID, department);
 		System.out.println("Сотрудник переведен в новый департамент");
 	}
 
 	private void deleteDepartment() {
-		Scanner scan = new Scanner(System.in);
 		System.out.print("Введите ID департамента: ");
-		String depID = scan.nextLine();
+		String depID = in.nextLine();
 		departmentDAO.deleteDepartment(depID);
 		System.out.println("Департамент удален.");
 	}
-	
+
 	private void findDeveloperByID() {
-		try (Scanner scan = new Scanner(System.in)) {
-			System.out.print("Введите ID работника: ");
-			Integer depID = scan.nextInt();
-			Developer developer = developerDAO.getDeveloperById(depID);
-			if (developer == null)
-			{
-				throw new NullPointerException("Сотрудник не найден");
-			}
-			System.out.println(developer);
+		System.out.print("Введите ID работника: ");
+		Integer devID = Integer.valueOf(in.nextLine());
+		Developer developer = developerDAO.getDeveloperById(devID);
+		if (developer == null) {
+			throw new NullPointerException("Сотрудник не найден");
 		}
+		System.out.println(developer);
 	}
-	
+
 	private void addDeveloper() {
-		Scanner scanInt = new Scanner(System.in);
-		Scanner scanString = new Scanner(System.in);
 		System.out.print("Введите имя работника: ");
-		String name = scanString.nextLine();
+		String name = in.nextLine();
 		System.out.print("Введите специализацию работника: ");
-		String specialty = scanString.nextLine();
+		String specialty = in.nextLine();
 		System.out.print("Введите опыт работника: ");
-		Integer experience = scanInt.nextInt();
-		for (Department department : departmentDAO.getDepartments())
-		{
+		Integer experience = Integer.valueOf(in.nextLine());
+		for (Department department : departmentDAO.getDepartments()) {
 			System.out.println(department);
 		}
 		System.out.print("Введите ID департамента работника: ");
-		String depID = scanString.nextLine();
+		String depID = in.nextLine();
 		Department department = departmentDAO.findDepartmentByID(depID);
 		Developer dev = new Developer(name, specialty, experience, department);
 		developerDAO.addDeveloper(dev);
 		System.out.println("Сотрудник успешно добавлен");
-		scanInt.close();
-		scanString.close();
+	}
+	
+	private void deleteDeveloper() {
+		System.out.print("Введите ID сотрудника: ");
+		Integer devID = Integer.valueOf(in.nextLine());
+		Developer dev = developerDAO.getDeveloperById(devID);
+		if (dev == null) {
+			throw new NullPointerException("Сотрудник не найден");
+		}
+		developerDAO.removeDeveloper(devID);
+		System.out.println("Разработчик успешно удален");
+	}
+	
+	private void getUsers() {
+		List<User> users = userDAO.getUsers();
+		for (User user: users)
+		{
+			System.out.println(user);
+		}
+	}
+	
+	private void getUserByUsername()
+	{
+		System.out.print("Введите username: ");
+		String username = in.nextLine();
+		System.out.println(userDAO.getUserByUsername(username));
+	}
+	
+	private void addUser()
+	{
+		System.out.print("Введите username: ");
+		String username = in.nextLine();
+		System.out.println(userDAO.getUserByUsername(username));
 	}
 }
