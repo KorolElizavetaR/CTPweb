@@ -79,11 +79,11 @@ public class User {
 		this.userRole = userRole;
 	}
 
-	public User(int userId, String username, String password, Role userRole) {
+	public User(int userId, String username, String password) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
-		this.userRole = userRole;
+		this.userRole = Role.ROLE_USER;
 	}
 	
 	public User() {

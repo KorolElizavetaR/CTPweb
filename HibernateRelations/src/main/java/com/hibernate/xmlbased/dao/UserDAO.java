@@ -104,4 +104,24 @@ public class UserDAO {
 			session.close();
 		}
 	}
+	
+	public User addUser(User user)
+	{
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		session.persist(user);
+		transaction.commit();
+		session.close();
+		return user;
+	}
+	
+	public User getUserByID(Integer ID)
+	{
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		User user = session.find(User.class, ID);
+		transaction.commit();
+		session.close();
+		return user;
+	}
 }

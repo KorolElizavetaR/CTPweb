@@ -1,14 +1,9 @@
 package com.hibernate.xmlbased.menu;
 
-import java.util.InputMismatchException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
 
-import com.hibernate.xmlbased.dao.DepartmentDAO;
-import com.hibernate.xmlbased.dao.DeveloperDAO;
-import com.hibernate.xmlbased.dao.UserDAO;
 import com.hibernate.xmlbased.model.Department;
 import com.hibernate.xmlbased.model.Developer;
 import com.hibernate.xmlbased.model.User;
@@ -27,12 +22,14 @@ public class AdminMenu extends Menu {
 			System.out.println("5. Удалить департмент (Внимание! Удаляет также связанных сотрудников)");
 			System.out.println("6. Найти сотрудника по ID");
 			System.out.println("7. Добавить сотрудника");
-			System.out.println("8. Удалить сотрудника"); 
+			System.out.println("8. Удалить сотрудника");
 			System.out.println("9. Получить список юзеров");
-			System.out.println("10. Найти юзера по никнейму"); 
-			System.out.println("11. Добавить сотрудника"); 
-			
-			System.out.println("11. Delete user");// таска
+			System.out.println("10. Найти юзера по никнейму");
+			System.out.println("11. Добавить аккаунт сотруднику");
+			System.out.println("12. Удалить юзера");
+			System.out.println("13. FROM Department WHERE department_id LIKE '%c'");
+			System.out.println("14. FROM Developer WHERE experience = %d");
+			System.out.println("15. FROM Developer WHERE experience = %d с Criteria");
 			// Написать три SELECT-а с использованием HQL или Criteria для любых таблиц
 			try {
 				System.out.print("Ввод: ");
@@ -69,6 +66,21 @@ public class AdminMenu extends Menu {
 					break;
 				case "10":
 					getUserByUsername();
+					break;
+				case "11":
+					addUser();
+					break;
+				case "12":
+					deleteUser();
+					break;
+				case "13":
+					findDepartmentByLetterInID();
+					break;
+				case "14":
+					findByExperienceEqual();
+					break;
+				case "15":
+					findByExperienceEqualCriteria();
 					break;
 				default:
 					System.out.println("\nНеверный ввод.");
@@ -163,7 +175,7 @@ public class AdminMenu extends Menu {
 		developerDAO.addDeveloper(dev);
 		System.out.println("Сотрудник успешно добавлен");
 	}
-	
+
 	private void deleteDeveloper() {
 		System.out.print("Введите ID сотрудника: ");
 		Integer devID = Integer.valueOf(in.nextLine());
@@ -174,26 +186,84 @@ public class AdminMenu extends Menu {
 		developerDAO.removeDeveloper(devID);
 		System.out.println("Разработчик успешно удален");
 	}
-	
+
 	private void getUsers() {
 		List<User> users = userDAO.getUsers();
-		for (User user: users)
-		{
+		for (User user : users) {
 			System.out.println(user);
 		}
 	}
-	
-	private void getUserByUsername()
-	{
+
+	private void getUserByUsername() {
 		System.out.print("Введите username: ");
 		String username = in.nextLine();
 		System.out.println(userDAO.getUserByUsername(username));
 	}
-	
-	private void addUser()
-	{
+
+	private void addUser() {
+		seeAllWorkers();
+		System.out.print("Введите ID сотрудника, для которого мы добавляем аккаунт: ");
+		Integer devID = Integer.valueOf(in.nextLine());
+		if (developerDAO.getDeveloperById(devID) == null) {
+			throw new NullPointerException("Сотрудник не найден");
+		}
 		System.out.print("Введите username: ");
 		String username = in.nextLine();
-		System.out.println(userDAO.getUserByUsername(username));
+		System.out.print("Введите password: ");
+		String password = in.nextLine();
+		System.out.println("Юзер " + userDAO.addUser(new User(devID, username, password)) + " успешно добавлен");
+	}
+
+	private void deleteUser() {
+		System.out.print("Введите ID аккаунта: ");
+		Integer userID = Integer.valueOf(in.nextLine());
+		if (userDAO.getUserByID(userID) == null) {
+			throw new NullPointerException("Юзер не найден");
+		}
+		developerDAO.removeDeveloper(userID);
+		System.out.println("Разработчик успешно удален");
+	}
+	
+	private void findDepartmentByLetterInID() {
+		System.out.print("Введите первый символ из ID департамента: ");
+		String charID = in.nextLine();
+		if (charID.length() != 1)
+		{
+			throw new NullPointerException("Это не один символ");
+		}
+		System.out.println(departmentDAO.findDepartmentByLetterInID(charID.charAt(0)));
+	}
+	
+	private void findByExperienceEqual() {
+		System.out.print("Введите опыт работы: ");
+		Integer experience = Integer.valueOf(in.nextLine());
+		List<Developer> devs = developerDAO.findByExperienceEqual(experience);
+		if (devs.isEmpty()) {
+			throw new NullPointerException("Сотрудников с таким опытом работы не найдено");
+		}
+		else
+		{
+			for (Developer dev: devs)
+			{
+				System.out.println(dev);
+			}
+		}
+	}
+	
+	private void findByExperienceEqualCriteria() {
+		System.out.print("Введите опыт работы: ");
+		Integer experience = Integer.valueOf(in.nextLine());
+		List<Developer> devs = developerDAO.findByExperienceEqualCriteria(experience);
+		if (devs.isEmpty()) {
+			throw new NullPointerException("Сотрудников с таким опытом работы не найдено");
+		}
+		else
+		{
+			for (Developer dev: devs)
+			{
+				System.out.println(dev);
+			}
+		}
+
 	}
 }

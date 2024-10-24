@@ -9,6 +9,10 @@ import com.hibernate.xmlbased.config.SessionConfig;
 import com.hibernate.xmlbased.model.Department;
 import com.hibernate.xmlbased.model.Developer;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
 public class DeveloperDAO {
 	private SessionConfig sc;
 	
@@ -59,5 +63,29 @@ public class DeveloperDAO {
 		session.remove(developer);
 		transaction.commit();
 		session.close();
+	}
+	
+	public List<Developer> findByExperienceEqual(Integer experience) {
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		List<Developer> devs = session.createQuery(String.format("FROM Developer WHERE experience = %d", experience),  Developer.class).getResultList();
+		transaction.commit();
+		session.close();
+		return devs;
+	}
+	
+	public List<Developer> findByExperienceEqualCriteria(Integer experience) {
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+		CriteriaQuery<Developer> criteria = criteriaBuilder.createQuery(Developer.class);
+		Root<Developer> devCriteria = criteria.from(Developer.class);
+		
+		criteria.where(criteriaBuilder.equal(devCriteria.get("experience"), experience));
+		List<Developer> developers = session.createQuery(criteria).getResultList();
+
+		transaction.commit();
+		session.close();
+		return developers;
 	}
 }
