@@ -2,7 +2,7 @@ CREATE TYPE role AS ENUM ('ROLE_ADMIN', 'ROLE_USER');
 	
 CREATE TABLE developer
 (
-	id int GENERATED ALWAYS AS IDENTITY PRIMAKY KEY,
+	id int GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
 	name varchar(20) NOT NULL,
 	specialty varchar(20) NOT NULL,
 	experience int not null CHECK (experience > -1),
