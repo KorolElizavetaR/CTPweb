@@ -19,6 +19,17 @@ public class DepartmentDAO {
 		sc = SessionConfig.getInstanceOfSeccionFactory();
 	}
 	
+	public List<Department> getDepartments()
+	{
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		List <Department> deps = session.createQuery("FROM Department", Department.class).getResultList();
+		transaction.commit();
+		session.close();
+		return deps;
+	}
+	
+	// этот кусок кода решает проблему n+1
 	public Set<Department> getDepartmentWithWorkers()
 	{
 		Session session = sc.getSessionFactory().getCurrentSession();
@@ -29,6 +40,7 @@ public class DepartmentDAO {
 		return departments;
 	}
 	
+	// В этом куске кода проблема n+1 не решается
 	public List<Developer> getDevelopersByDepartment(Department department){
 		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
@@ -40,7 +52,48 @@ public class DepartmentDAO {
 		
 		transaction.commit();
 		session.close();
-		
 		return devs;
+	}
+	
+	public Department findDepartmentByID(String departmentID) {
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		Department dep = session.find(Department.class, departmentID);
+		if (dep == null)
+		{
+			transaction.commit();
+			session.close();
+			throw new NullPointerException("Департмент не найден");
+		}
+		transaction.commit();
+		session.close();
+		return dep;
+	}
+	
+	public Department addDepartament(Department dep)
+	{
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		session.persist(dep);
+		Department department = session.find(Department.class, dep.getDepartmentId());
+		transaction.commit();
+		session.close();
+		return department;
+	}
+	
+	public void deleteDepartment(String ID)
+	{
+		Session session = sc.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		Department dep = session.get(Department.class, ID);
+		if (dep == null)
+		{
+			transaction.commit();
+			session.close();
+			throw new NullPointerException("Департмент не найден");
+		}
+		session.remove(dep);
+		transaction.commit();
+		session.close();
 	}
 }

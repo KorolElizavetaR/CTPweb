@@ -2,8 +2,6 @@ package com.hibernate.xmlbased;
 
 import java.util.Scanner;
 
-import com.hibernate.xmlbased.dao.DepartmentDAO;
-import com.hibernate.xmlbased.dao.DeveloperDAO;
 import com.hibernate.xmlbased.dao.UserDAO;
 import com.hibernate.xmlbased.menu.AdminMenu;
 import com.hibernate.xmlbased.menu.Menu;
@@ -20,9 +18,9 @@ public class MainClass {
 		Menu menu = null;
 		while (true)
 		{
-			System.out.println("Username:");
+			System.out.print("Username:");
 			String username = in.nextLine();
-			System.out.println("Password:");
+			System.out.print("Password:");
 			String password = in.nextLine();
 			User user;
 			try

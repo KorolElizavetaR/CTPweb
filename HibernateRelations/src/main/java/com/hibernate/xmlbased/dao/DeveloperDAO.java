@@ -6,6 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.hibernate.xmlbased.config.SessionConfig;
+import com.hibernate.xmlbased.model.Department;
 import com.hibernate.xmlbased.model.Developer;
 
 public class DeveloperDAO {
@@ -41,11 +42,11 @@ public class DeveloperDAO {
 		return developers;
 	}
 
-	public Developer updateDeveloper(Integer id, Integer experience) {
+	public Developer updateDevelopersDepartment(Integer devId, Department department) {
 		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		Developer developer = session.get(Developer.class, id);
-		developer.setExperience(experience);
+		Developer developer = session.get(Developer.class, devId);
+		developer.setDepartment(department);
 		transaction.commit();
 		session.close();
 		return developer;
@@ -59,5 +60,7 @@ public class DeveloperDAO {
 		transaction.commit();
 		session.close();
 	}
+	
+
 
 }

@@ -9,7 +9,8 @@ import com.hibernate.xmlbased.model.User;
 
 public class Menu {
 	User authUser;
-	Scanner in = new Scanner(System.in);
+	Scanner scanLine = new Scanner(System.in);
+	Scanner scanInt = new Scanner(System.in);
 	
 	static DeveloperDAO developerDAO = new DeveloperDAO();
 	static UserDAO userDAO = new UserDAO();
@@ -18,6 +19,6 @@ public class Menu {
 	public void menu(User authUser)
 	{
 		this.authUser = authUser;
-		System.out.printf("Hi, %s. Your role: %s\t", authUser.getDeveloper().getName(), authUser.getUserRole().getRole());
+		System.out.printf("\nHi, %s. Your role: %s\n", authUser.getDeveloper().getName(), authUser.getUserRole().getRole());
 	}
 }
