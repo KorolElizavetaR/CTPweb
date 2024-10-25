@@ -4,26 +4,29 @@
 
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.dialect">
-            org.hibernate.dialect.MySQLDialect
-        </property>
+<!--         <property name="hibernate.dialect"> -->
+<!--             org.hibernate.dialect.MySQLDialect -->
+<!--         </property> -->
         <property name="hibernate.connection.driver_class">
-            com.mysql.cj.jdbc.Driver
+<!--             com.mysql.cj.jdbc.Driver -->
+org.postgresql.Driver
         </property>
 
-        <!-- Assume test is the database name -->
         <property name="hibernate.connection.url">
-            jdbc:mysql://localhost:3306/hibernate
+<!--             jdbc:mysql://localhost/hib1 -->
+	jdbc:postgresql://localhost:5432/hibernate_lab4
         </property>
         <property name="hibernate.connection.username">
-            root
+<!--             root -->
+postgres
         </property>
         <property name="hibernate.connection.password">
-            ЗМЩлшкпшы789
+<!--             root -->
+Emsobak321
         </property>
-        <property name="current_session_context_class">thread</property>
+<property name="hibernate.current_session_context_class">thread</property>
 
-        <!-- List of XML mapping files -->
+<property name="show_sql">true</property>
         <mapping resource="Developer.hbm.xml"/>
 
     </session-factory>
