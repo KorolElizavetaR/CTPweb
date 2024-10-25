@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <employee>
-    <emplName>Мирон</emplName>
-    <emplDob>2004-01-01</emplDob>
-    <emplSalary>1200.00</emplSalary>
+    <emplName>Maksim</emplName>
+    <emplDob>2001-04-27</emplDob>
+    <emplSalary>1500.00</emplSalary>
 </employee>

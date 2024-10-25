@@ -9,10 +9,10 @@ public class ConfigClass {
 	private static Connection connection;
 	private Statement statement;
 	
-	private static String driver = "org.postgresql.Driver";
-	private static String username = "postgres";
-	private static String password = "Emsobak321";
-	private static String url = "jdbc:postgresql://localhost:5432/test_database";
+	private static String driver = "com.mysql.cj.jdbc.Driver";
+	private static String username = "root";
+	private static String password = "ЗМЩлшкпшы789";
+	private static String url = "jdbc:mysql://localhost:3306/testdb";
 
 	public ConfigClass() throws ClassNotFoundException, SQLException {
 		Class.forName(driver);

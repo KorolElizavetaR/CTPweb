@@ -100,7 +100,7 @@ public class DepartmentDAO {
 	public List<Department> findDepartmentByLetterInID(Character charID) {
 		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		List<Department> deps = session.createQuery(String.format("FROM Department WHERE department_id LIKE '%c%%'", charID), Department.class).getResultList();
+		List<Department> deps = session.createQuery(String.format("FROM Department WHERE departmentId LIKE '%c%%'", charID), Department.class).getResultList();
 		transaction.commit();
 		session.close();
 		return deps;

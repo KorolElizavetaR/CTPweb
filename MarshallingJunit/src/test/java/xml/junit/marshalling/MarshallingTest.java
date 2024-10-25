@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.hibernate.exception.GenericJDBCException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -46,7 +47,7 @@ public class MarshallingTest {
 	void createInvalidEmployeeTest() {
 		try {
 			Employee empl = employeeDAO.getEmployeeFromXML("src/main/resources/files/emp2.xml");
-			assertThrows(ConstraintViolationException.class, () -> employeeDAO.saveEmployee(empl));
+			assertThrows(GenericJDBCException.class, () -> employeeDAO.saveEmployee(empl));
 		} catch (IOException | JAXBException e) {
 			fail(e.getLocalizedMessage());
 		}
@@ -66,7 +67,7 @@ public class MarshallingTest {
 	@Test
 	@Order(4)
 	void employeeToXMLTest() {
-		Employee emp = employeeDAO.findEmployeeByID(5);
+		Employee emp = employeeDAO.findEmployeeByID(2);
 		try {
 			JAXBContext context = JAXBContext.newInstance(Employee.class);
 			Marshaller marshaller = context.createMarshaller();
