@@ -32,7 +32,7 @@ public class Employee {
 	@Column(name = "employee_id")
 	@XmlTransient
 	private int employeeId;
-	
+
 	@Column(name = "empl_name", nullable = false, length = 30)
 	private String emplName;
 

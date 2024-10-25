@@ -16,5 +16,5 @@ public class DateTimeAdapter extends XmlAdapter<String, Date> {
 	public String marshal(Date v) throws Exception {
 		return new SimpleDateFormat("yyyy-MM-dd").format(v);
 	}
-   
+
 }

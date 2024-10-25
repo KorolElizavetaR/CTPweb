@@ -1,14 +1,23 @@
 package xml.junit.marshalling.dao;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.exception.ConstraintViolationException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -17,14 +26,14 @@ import xml.junit.marshalling.HibernateConfig;
 import xml.junit.marshalling.model.Employee;
 
 public class EmployeeDAO {
-	//Session session = config.sessionFactory.getCurrentSession();
+
 	private static HibernateConfig config = null;
 
 	public EmployeeDAO() {
 		config = HibernateConfig.getInstanceOfSeccionFactory();
 	}
 
-	public Employee getEmployeeFromFile(String filename) throws IOException, JAXBException {
+	public Employee getEmployeeFromXML(String filename) throws IOException, JAXBException {
 		StringBuilder strbldr = new StringBuilder();
 		ArrayList<String> lines = (ArrayList<String>) Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
 		for (String line : lines) {
@@ -38,62 +47,95 @@ public class EmployeeDAO {
 	public Employee saveEmployee(Employee entity) {
 		Session session = config.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		session.persist(entity);
-		Employee emp = session.find(Employee.class, entity.getEmployeeId());
-		transaction.commit();
-		session.close();
+		Employee emp;
+		try {
+			session.persist(entity);
+			emp = session.find(Employee.class, entity.getEmployeeId());
+		} catch (ConstraintViolationException e) {
+			throw e;
+		} finally {
+			transaction.commit();
+			session.close();
+		}
 		return emp;
 	}
-	
+
 	public Employee findEmployeeByID(Integer id) {
-    	Session session = config.getSessionFactory().getCurrentSession();
+		Session session = config.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
 		Employee employee = session.get(Employee.class, id);
 		transaction.commit();
 		session.close();
 		return employee;
-    }
+	}
 
-//	    private static void update(PersonEntity entity, Session session) {
-//	        session.beginTransaction();
-//	        PersonEntity mod = session.get(PersonEntity.class, entity.getId());
-//	        if (entity.getSurname() != null) {
-//	            mod.setSurname(entity.getSurname());
-//	        }
-//	        if (entity.getAddress() != null) {
-//	            mod.setAddress(entity.getAddress());
-//	        }
-//	        mod.setDutyBound(entity.getDutyBound());
-//	        session.update(mod);
-//	        session.getTransaction().commit();
-//	    }
-//
-//	    private static PersonEntity read(PersonEntity entity, Session session) {
-//	        return session.get(PersonEntity.class, entity.getId());
-//	    }
-//
-//	    private static void delete(PersonEntity entity, Session session) {
-//	        session.beginTransaction();
-//	        PersonEntity myObject = session.load(PersonEntity.class, entity.getId());
-//	        session.delete(myObject);
-//	        session.getTransaction().commit();
-//	    }
-//
-//	    static void addFromJson(@SuppressWarnings("SameParameterValue") String filename, Session session) throws IOException {
-//	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//	        try (Reader reader = new FileReader(filename)) {
-//	            PersonEntity personEntity = gson.fromJson(reader, PersonEntity.class);
-//	            create(personEntity, session);
-//	        }
-//	    }
-//
-//	    static void dumpToJson(@SuppressWarnings("SameParameterValue") String filename, Session session, @SuppressWarnings("SameParameterValue") String ID) throws IOException {
-//	        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//	        PersonEntity personEntity = session.find(PersonEntity.class, ID);
-//	        try (FileWriter writer = new FileWriter(filename)) {
-//	            gson.toJson(personEntity, writer);
-//	        }
-//	    }
-//	}
+	public Employee updateEmployee(Employee newEmpl, Integer id) {
+		Session session = config.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		Employee oldEmp;
+		try {
+			oldEmp = session.get(Employee.class, id);
+			oldEmp.setEmplName(newEmpl.getEmplName());
+			oldEmp.setEmplDob(newEmpl.getEmplDob());
+			oldEmp.setEmplSalary(newEmpl.getEmplSalary());
+		} catch (ConstraintViolationException e) {
+			throw e;
+		} finally {
+			transaction.commit();
+			session.close();
+		}
+		return oldEmp;
+	}
 
+	public List<Employee> getEmployees() {
+		Session session = config.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		List<Employee> empl = session.createQuery("FROM Employee", Employee.class).list();
+		transaction.commit();
+		session.close();
+		return empl;
+	}
+
+	public void removeEmployee(Integer id) {
+		Session session = config.getSessionFactory().getCurrentSession();
+		Transaction transaction = session.beginTransaction();
+		Employee empl;
+		try {
+			empl = session.get(Employee.class, id);
+			session.remove(empl);
+		} catch (ConstraintViolationException e) {
+			throw e;
+		} finally {
+			transaction.commit();
+			session.close();
+		}
+	}
+
+	public Employee getEmployeeFromJson(String filename) throws IOException {
+		Gson gson = new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd").create();
+		Reader reader = null;
+		Employee employee;
+		try {
+			reader = new FileReader(filename);
+			employee = gson.fromJson(reader, Employee.class);
+		} catch (FileNotFoundException ex) {
+			throw ex;
+		} finally {
+			reader.close();
+		}
+		return employee;
+	}
+
+	public void dumpEmployeeToJson(String filename, Employee employee) throws Exception {
+		Gson gson = new GsonBuilder().setPrettyPrinting().setDateFormat("yyyy-MM-dd").create();
+		FileWriter writer = null;
+		try {
+			writer = new FileWriter(filename);
+			gson.toJson(employee, writer);
+		} catch (Exception ex) {
+			throw ex;
+		} finally {
+			writer.close();
+		}
+	}
 }
