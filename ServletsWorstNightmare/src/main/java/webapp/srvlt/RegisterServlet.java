@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import webapp.srvlt.coder.HashPassword;
 import webapp.srvlt.dao.UserDAO;
 import webapp.srvlt.model.User;
 
@@ -21,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
 		String name = request.getParameter("newLoginName");
 		String password = request.getParameter("newPassword");
 
-		User user = new User(name, password);
+		User user = new User(name, HashPassword.getHash(password));
 		try {
 			UserDAO daoUser = new UserDAO();
 			if (daoUser.insertUser(user)) {

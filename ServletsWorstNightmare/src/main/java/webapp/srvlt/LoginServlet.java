@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import webapp.srvlt.coder.HashPassword;
 import webapp.srvlt.dao.UserDAO;
 import webapp.srvlt.service.PersonService;
 
@@ -27,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 	        try
 	        {
 	        	UserDAO daoUser = new UserDAO();
-	        if (daoUser.isValidUser(name, password)) {
+	        if (daoUser.isValidUser(name, HashPassword.getHash(password))) {
 
 	            request.getSession().setAttribute("name", name);
 	            response.sendRedirect(request.getContextPath() + "/GroupListServlet");
