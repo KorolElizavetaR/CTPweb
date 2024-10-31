@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import webapp.srvlt.config.ConfigClass;
 import webapp.srvlt.model.User;
 
@@ -12,7 +15,7 @@ public class UserDAO {
 	private final static String SQL_GET_USER = "select login,passw from users where login=? and passw=?";
 	private final static String SQL_CHECK_LOGIN = "SELECT login FROM users WHERE login = ?";
 	private final static String SQL_INSERT_USER = "insert into users(login,passw) values(?,?)";
-
+	private static final Logger logger = LogManager.getLogger(UserDAO.class);
 	public UserDAO() throws ClassNotFoundException, SQLException {
 		new ConfigClass();
 	}

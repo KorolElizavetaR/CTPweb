@@ -2,6 +2,7 @@ package webapp.srvlt;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import webapp.srvlt.dao.UserDAO;
 import webapp.srvlt.service.PersonService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @WebServlet("/LoginServlet")
 public class LoginServlet extends HttpServlet {
@@ -30,10 +32,26 @@ public class LoginServlet extends HttpServlet {
 	        	UserDAO daoUser = new UserDAO();
 	        if (daoUser.isValidUser(name, HashPassword.getHash(password))) {
 
-	            request.getSession().setAttribute("name", name);
-	            response.sendRedirect(request.getContextPath() + "/GroupListServlet");
-	// НЕТ ПАРАМЕТРОВ - всегда использует метод get request.getRequestDispatcher("/GroupServlet")
-	//.forward(request, response);
+	        	 request.getSession().setAttribute("name", name);
+
+	             Cookie[] cookies = request.getCookies();
+	             if (cookies != null) {
+	                 for (Cookie c : cookies) { Cookie cookie = c;
+	                     System.out.println(cookie.getName() + cookie.getValue());
+	                     if (name.equals(cookie.getName())) {
+	                         request. getSession().setAttribute("lastdate",
+	                                 cookie.getValue());
+	                     }
+	                 }
+	             }
+
+
+	             Cookie userCookie = new Cookie(name, LocalDateTime.now().toString());
+	             userCookie.setMaxAge(60 * 60 * 24 * 365); //хранить куки год
+	             response.addCookie(userCookie);
+
+	             response.sendRedirect(request.getContextPath() + "/GroupListServlet");
+
 
 	        } else {
 	            request.setAttribute("errorMessage", "Invalid Login and password!!");

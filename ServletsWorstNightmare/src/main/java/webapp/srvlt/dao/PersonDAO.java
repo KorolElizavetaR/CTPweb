@@ -8,6 +8,9 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import webapp.srvlt.config.ConfigClass;
 import webapp.srvlt.model.Person;
 
@@ -15,6 +18,7 @@ public class PersonDAO {
 
 	private final static String SQL_GET_PERSONS = "SELECT * FROM people";
 	private final static String SQL_INSERT_PERSONS = "INSERT INTO people(pname, phone, email) VALUES (?,?,?)";
+	private static final Logger logger = LogManager.getLogger(PersonDAO.class);
 
 	public void insertPerson(Person person) throws ClassNotFoundException, SQLException {
 		Connection connection = ConfigClass.getConnection();
@@ -25,6 +29,8 @@ public class PersonDAO {
 			preparedStatement.setString(3, person.getEmail());
 			preparedStatement.executeUpdate();
 			preparedStatement.close();
+			 logger.info("New Person " + person.getName() +" inserted");
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
