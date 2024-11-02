@@ -2,6 +2,7 @@ package com.jdbc.junit;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Objects;
 
 public class Employee {
 
@@ -67,5 +68,25 @@ public class Employee {
                 ", emplSalary=" + emplSalary +
                 '}';
     }
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(emplDob, emplName, emplSalary);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		return Objects.equals(emplDob, other.emplDob) && Objects.equals(emplName, other.emplName)
+				&& Objects.equals(emplSalary, other.emplSalary);
+	}
+    
+    
 }
 

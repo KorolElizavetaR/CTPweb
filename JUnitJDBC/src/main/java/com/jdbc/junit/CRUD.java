@@ -1,10 +1,13 @@
 package com.jdbc.junit;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CRUD {
 
@@ -16,14 +19,15 @@ public class CRUD {
 		statement.setInt(3, empl_salary);
 		statement.executeUpdate();
 	}
-	
-	public void createEmployee(Employee empl) throws SQLException {
+
+	public Integer createEmployee(Employee empl) throws SQLException {
 		String query = "INSERT INTO employee (empl_name, empl_dob, empl_salary) VALUES (?,?,?);";
 		PreparedStatement statement = ConfigClass.getConnection().prepareStatement(query);
 		statement.setString(1, empl.getEmplName());
 		statement.setDate(2, empl.getEmplDob());
 		statement.setBigDecimal(3, empl.getEmplSalary());
-		statement.executeUpdate();
+		int id = statement.executeUpdate();
+		return id;
 	}
 
 	public void deleteEmployee(Integer id) throws SQLException {
@@ -33,10 +37,19 @@ public class CRUD {
 		pstmt.executeUpdate();
 	}
 
-	public ResultSet readTable() throws SQLException {
+	public List<Employee> readTable() throws SQLException {
+		List<Employee> employees = new ArrayList<>();
 		Statement stmt = ConfigClass.getConnection().createStatement();
 		ResultSet rs = stmt.executeQuery("SELECT * FROM employee");
-		return rs;
+		while (rs.next()) {
+			int employeeId = rs.getInt("employee_id");
+			String emplName = rs.getString("empl_name");
+			Date emplDob = rs.getDate("empl_dob");
+			BigDecimal emplSalary = rs.getBigDecimal("empl_salary");
+			Employee employee = new Employee(employeeId, emplName, emplDob, emplSalary);
+			employees.add(employee);
+		}
+		return employees;
 	}
 
 	public void updateEmployee(Integer id, String empl_name, Date empl_dob, Integer empl_salary) throws SQLException {

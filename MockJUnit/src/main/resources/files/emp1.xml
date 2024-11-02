@@ -2,5 +2,5 @@
 <employee>
     <emplName>Мирон</emplName>
     <emplDob>2004-01-01</emplDob>
-    <emplSalary>1200.00</emplSalary>
+    <emplSalary>1200</emplSalary>
 </employee>

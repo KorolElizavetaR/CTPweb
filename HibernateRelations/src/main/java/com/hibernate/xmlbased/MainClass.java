@@ -10,30 +10,25 @@ import com.hibernate.xmlbased.model.User;
 
 import jakarta.persistence.NoResultException;
 
-public class MainClass {	
+public class MainClass {
 	static UserDAO userDAO = new UserDAO();
-	
+
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		Menu menu = null;
-		while (true)
-		{
+		while (true) {
 			System.out.print("Username:");
 			String username = in.nextLine();
 			System.out.print("Password:");
 			String password = in.nextLine();
 			User user;
-			try
-			{
+			try {
 				user = userDAO.AuthUser(username, password);
-			}
-			catch(NoResultException ex)
-			{
+			} catch (NoResultException ex) {
 				System.out.println("Bad credentials");
 				continue;
 			}
-			switch(user.getUserRole())
-			{
+			switch (user.getUserRole()) {
 			case ROLE_ADMIN:
 				menu = new AdminMenu();
 				break;
@@ -45,5 +40,5 @@ public class MainClass {
 			break;
 		}
 	}
-	
+
 }

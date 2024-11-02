@@ -1,5 +1,8 @@
 package com.jdbc.junit;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -9,6 +12,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterAll;
@@ -38,10 +42,9 @@ public class JDBCTest {
 		config = new ConfigClass();
 		database = new CRUD();
 	}
-	
+
 	@AfterAll
-	static void closeContext()
-	{
+	static void closeContext() {
 		try {
 			config.closeConnection();
 		} catch (SQLException e) {
@@ -78,12 +81,11 @@ public class JDBCTest {
 	@Test
 	void testRead() {
 		try {
-			ResultSet rs = database.readTable();
-			assertNotNull(rs);
-			assertNotEquals(rs.getMetaData().getColumnCount(), 0);
+			List<Employee> employees = database.readTable();
+			assertNotNull(employees);
+			assertNotEquals(employees.size(), 0);
 		} catch (SQLException e) {
 			fail("SQLException");
 		}
 	}
-
 }
