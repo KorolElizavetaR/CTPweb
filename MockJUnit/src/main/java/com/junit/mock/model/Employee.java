@@ -60,32 +60,36 @@ public class Employee {
 		return employeeId;
 	}
 
-	public void setEmployeeId(int employeeId) {
+	public Employee setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
+		return this;
 	}
 
 	public String getEmplName() {
 		return emplName;
 	}
 
-	public void setEmplName(String emplName) {
+	public Employee setEmplName(String emplName) {
 		this.emplName = emplName;
+		return this;
 	}
 
 	public Date getEmplDob() {
 		return emplDob;
 	}
 
-	public void setEmplDob(Date emplDob) {
+	public Employee setEmplDob(Date emplDob) {
 		this.emplDob = emplDob;
+		return this;
 	}
 
 	public BigDecimal getEmplSalary() {
 		return emplSalary;
 	}
 
-	public void setEmplSalary(BigDecimal emplSalary) {
+	public Employee setEmplSalary(BigDecimal emplSalary) {
 		this.emplSalary = emplSalary;
+		return this;
 	}
 
 	@Override
