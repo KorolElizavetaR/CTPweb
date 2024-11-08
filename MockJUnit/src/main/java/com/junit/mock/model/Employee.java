@@ -116,7 +116,4 @@ public class Employee {
 				&& Objects.equals(emplSalary, other.emplSalary) && employeeId == other.employeeId;
 	}
 
-	
-
-	
 }

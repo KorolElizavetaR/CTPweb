@@ -12,9 +12,7 @@ import java.sql.Date;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.hibernate.cfg.Configuration;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -25,7 +23,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.internal.matchers.Any;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.junit.mock.exception.EmployeeNotFoundException;
@@ -37,7 +34,7 @@ import jakarta.validation.ConstraintViolationException;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class MockTests {
+public class MockEmployeeRepository {
 	@InjectMocks
 	private EmployeeService service;
 	@Mock
@@ -51,12 +48,12 @@ public class MockTests {
 	static void initialize()
 	{
 		employee = new Employee(5, "Валобуев Михаил Семенович", new Date(945153510963l), new BigDecimal("1000"));
-		newEmployee = new Employee("Миськевич Михаил Семенович", new Date(945153510963l), new BigDecimal("1200"));
+		newEmployee = new Employee("Миськевич Константин Александрович", new Date(945153510963l), new BigDecimal("1200"));
 		invalidEmployee = new Employee("Инвалиды! Огузки!", new Date(1022131568640l), new BigDecimal("-500"));
 	}
 
 	static Stream<Employee> OKempl() {
-		return Stream.of(new Employee("Батроев Михаил Михалыч", new Date(945153510963l), new BigDecimal("1000")),
+		return Stream.of(new Employee("Бут-Гусаим Денис Михалыч", new Date(945153510963l), new BigDecimal("1000")),
 				new Employee("Терентьев Михал Палыч", new Date(988349168640l), new BigDecimal("1500")),
 				new Employee("Фролов Алексей Васильевич", new Date(1022131568640l), new BigDecimal("1000")));
 	}

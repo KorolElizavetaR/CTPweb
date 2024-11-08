@@ -3,7 +3,6 @@ package com.junit.mock.repository;
 import java.util.List;
 import java.util.Optional;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

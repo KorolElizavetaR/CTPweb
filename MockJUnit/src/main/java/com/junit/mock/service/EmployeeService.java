@@ -14,10 +14,10 @@ import jakarta.validation.Validator;
 
 public class EmployeeService {
 
-	private final EmployeeRepository service;
+	private final EmployeeRepository repos;
 	
-	public EmployeeService(EmployeeRepository service) {
-		this.service = service;
+	public EmployeeService(EmployeeRepository repos) {
+		this.repos = repos;
 	}
 
 	public Employee saveEmployee(Employee employee) {
@@ -25,17 +25,17 @@ public class EmployeeService {
 		Set<ConstraintViolation<Employee>> violations = validator.validate(employee);
 		if (!violations.isEmpty())
 			throw new ConstraintViolationException(violations);
-		service.save(employee);
+		repos.save(employee);
 		Employee emp = findEmployeeByID(employee.getEmployeeId());
 		return emp;
 	}
 
 	public Employee findEmployeeByID(Integer id) {
-		return service.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+		return repos.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
 	}
 	
 	public List <Employee> getAllEmployees() {
-		return service.findAll();
+		return repos.findAll();
 	}
 
 	public Employee updateEmployee(Employee newEmpl, Integer id) {
@@ -44,13 +44,13 @@ public class EmployeeService {
 		if (!violations.isEmpty())
 			throw new ConstraintViolationException(violations);
 		findEmployeeByID(id);
-		Employee newEmployee = service.update(newEmpl, id).get();
+		Employee newEmployee = repos.update(newEmpl, id).get();
 		return newEmployee;
 	}
 	
 	public void removeEmployee(Integer id) {
-		Employee employee = service.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
-		service.delete(employee);
+		Employee employee = repos.findById(id).orElseThrow(() -> new EmployeeNotFoundException(id));
+		repos.delete(employee);
 	}
 
 }
