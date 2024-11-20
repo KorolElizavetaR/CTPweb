@@ -12,6 +12,8 @@ import webapp.srvlt.service.PersonService;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import jakarta.servlet.annotation.WebServlet;
+
 @WebServlet("/GroupListServlet")
 public class GroupListServlet extends HttpServlet {
 
