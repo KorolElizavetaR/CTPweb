@@ -109,7 +109,9 @@ public class UserDAO {
 	{
 		Session session = sc.getSessionFactory().getCurrentSession();
 		Transaction transaction = session.beginTransaction();
-		session.persist(user);
+		user.setUserRole(Role.ROLE_USER);
+		user = session.merge(user);
+		//session.persist(user);
 		transaction.commit();
 		session.close();
 		return user;

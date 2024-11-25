@@ -29,8 +29,8 @@ public class User {
 	@Column(name = "password", nullable = false, length = 30)
 	private String password;
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "user_role", nullable = false)
+	@Enumerated(EnumType.STRING)
 	private Role userRole;
 
 	@Override

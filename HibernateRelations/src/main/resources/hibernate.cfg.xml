@@ -11,7 +11,7 @@
 
 		<property name="hibernate.connection.url">
 			<!-- jdbc:mysql://localhost/hib1 -->
-			jdbc:postgresql://localhost:5432/hibernate
+			jdbc:postgresql://localhost:5432/test_database
 		</property>
 		<property name="hibernate.connection.username">
 			<!-- root -->
